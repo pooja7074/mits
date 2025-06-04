@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MITS - Micro Information Technology Services</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .hover-glow:hover {
+            box-shadow: 0 0 30px rgba(102, 126, 234, 0.5);
+            transform: translateY(-2px);
+            transition: all 0.3s ease;
+        }
+        
+        .university-logo {
+            transition: all 0.3s ease;
+            filter: grayscale(0.7);
+        }
+        
+        .university-logo:hover {
+            filter: grayscale(0);
+            transform: scale(1.05);
+        }
+        
+        .sidebar {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .sidebar.open {
+            transform: translateX(0);
+        }
+        
+        .sticky-banner {
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .sticky-banner.show {
+            transform: translateY(0);
+        }
+        
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .animate-pulse-slow {
+            animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        .bg-gradient-radial {
+            background: radial-gradient(circle at center, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white">
+    <!-- Sticky Internship Banner -->
+    <div id="stickyBanner" class="sticky-banner fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 px-4 shadow-lg">
+        <div class="container mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <i class="fas fa-star text-yellow-300 animate-pulse"></i>
+                <span class="font-semibold">Limited Time: Apply for Premium Internship Program!</span>
+            </div>
+            <button class="bg-white text-purple-600 px-4 py-2 rounded-full font-semibold hover:bg-yellow-100 transition-colors">
+                Apply Now
+            </button>
+        </div>
+    </div>
+
+    <!-- Sidebar Overlay -->
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+
+    <!-- Sidebar -->
+    <nav id="sidebar" class="sidebar fixed left-0 top-0 h-full w-80 bg-gray-800 z-50 p-6 shadow-2xl">
+        <div class="flex items-center justify-between mb-8">
+            <h2 class="text-2xl font-bold text-white">MITS Navigation</h2>
+            <button id="closeSidebar" class="text-white hover:text-gray-300 focus:outline-none">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+        
+        <ul class="space-y-4">
+            <li><a href="#home" class="flex items-center space-x-3 text-white hover:text-blue-400 py-3 px-4 rounded-lg hover:bg-gray-700 transition-colors">
+                <i class="fas fa-home"></i><span>Home</span>
+            </a></li>
+            <li><a href="#internship" class="flex items-center space-x-3 text-white hover:text-blue-400 py-3 px-4 rounded-lg hover:bg-gray-700 transition-colors">
+                <i class="fas fa-briefcase"></i><span>Internship Application</span>
+            </a></li>
+            <li><a href="#offer-letter" class="flex items-center space-x-3 text-white hover:text-blue-400 py-3 px-4 rounded-lg hover:bg-gray-700 transition-colors">
+                <i class="fas fa-file-contract"></i><span>Offer Letter Generation</span>
+            </a></li>
+            <li><a href="#certificate" class="flex items-center space-x-3 text-white hover:text-blue-400 py-3 px-4 rounded-lg hover:bg-gray-700 transition-colors">
+                <i class="fas fa-certificate"></i><span>Certificate Verification</span>
+            </a></li>
+            <li><a href="#team" class="flex items-center space-x-3 text-white hover:text-blue-400 py-3 px-4 rounded-lg hover:bg-gray-700 transition-colors">
+                <i class="fas fa-users"></i><span>Join Our Team</span>
+            </a></li>
+            <li><a href="#contact" class="flex items-center space-x-3 text-white hover:text-blue-400 py-3 px-4 rounded-lg hover:bg-gray-700 transition-colors">
+                <i class="fas fa-envelope"></i><span>Contact Us</span>
+            </a></li>
+        </ul>
+
+        <div class="mt-12 p-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg">
+            <h3 class="font-semibold mb-2">Quick Apply</h3>
+            <p class="text-sm mb-3 opacity-90">Start your career journey today!</p>
+            <button class="w-full bg-white text-purple-600 py-2 rounded-lg font-semibold hover:bg-yellow-100 transition-colors">
+                Apply for Internship
+            </button>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="relative z-30 bg-gray-900 shadow-lg">
+        <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <button id="menuToggle" class="text-white hover:text-blue-400 focus:outline-none lg:hidden">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-microchip text-white"></i>
+                    </div>
+                    <h1 class="text-2xl font-bold">MITS</h1>
+                </div>
+            </div>
+            
+            <nav class="hidden lg:flex space-x-8">
+                <a href="#home" class="hover:text-blue-400 transition-colors">Home</a>
+                <a href="#about" class="hover:text-blue-400 transition-colors">About</a>
+                <a href="#services" class="hover:text-blue-400 transition-colors">Services</a>
+                <a href="#universities" class="hover:text-blue-400 transition-colors">Universities</a>
+                <a href="#contact" class="hover:text-blue-400 transition-colors">Contact</a>
+            </nav>
+
+            <button class="bg-gradient-to-r from-purple-600 to-blue-600 px-6 py-2 rounded-full hover:from-purple-700 hover:to-blue-700 transition-all hover-glow">
+                Get Started
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-radial"></div>
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute top-20 left-20 w-72 h-72 bg-purple-600 rounded-full blur-3xl animate-pulse-slow"></div>
+            <div class="absolute bottom-20 right-20 w-96 h-96 bg-blue-600 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 2s;"></div>
+        </div>
+        
+        <div class="relative z-10 text-center max-w-6xl mx-auto px-4">
+            <div class="animate-float">
+                <h1 class="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-purple-400 via-blue-400 to-teal-400 bg-clip-text text-transparent">
+                    MITS
+                </h1>
+                <p class="text-2xl md:text-3xl font-light mb-4 text-gray-300">
+                    Micro Information Technology Services
+                </p>
+            </div>
+            
+            <p class="text-xl md:text-2xl mb-12 text-gray-400 max-w-4xl mx-auto leading-relaxed">
+                Empowering the next generation of tech innovators through cutting-edge internship programs, 
+                connecting students with industry leaders across prestigious universities worldwide.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
+                <button class="bg-gradient-to-r from-purple-600 to-blue-600 px-8 py-4 rounded-full text-lg font-semibold hover-glow transform hover:scale-105 transition-all">
+                    <i class="fas fa-rocket mr-2"></i>
+                    Start Your Journey
+                </button>
+                <button class="glass-effect px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:bg-opacity-20 transition-all">
+                    <i class="fas fa-play mr-2"></i>
+                    Watch Demo
+                </button>
+            </div>
+
+            <!-- Stats Section -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-blue-400 mb-2">50K+</div>
+                    <div class="text-gray-400">Active Students</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-purple-400 mb-2">200+</div>
+                    <div class="text-gray-400">Partner Universities</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-teal-400 mb-2">95%</div>
+                    <div class="text-gray-400">Success Rate</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-yellow-400 mb-2">24/7</div>
+                    <div class="text-gray-400">Support</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section id="about" class="py-20 bg-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-5xl font-bold mb-8 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+                    Our Mission
+                </h2>
+                <p class="text-xl text-gray-300 leading-relaxed mb-12">
+                    At MITS, we bridge the gap between academic excellence and industry innovation. Our mission is to 
+                    cultivate the next generation of technology leaders by providing immersive, hands-on experiences 
+                    that transform theoretical knowledge into practical expertise. We partner with leading universities 
+                    and cutting-edge companies to create pathways for student success in the digital economy.
+                </p>
+                
+                <div class="grid md:grid-cols-3 gap-8 mt-16">
+                    <div class="glass-effect p-8 rounded-2xl hover-glow">
+                        <i class="fas fa-graduation-cap text-4xl text-blue-400 mb-4"></i>
+                        <h3 class="text-2xl font-semibold mb-4">Academic Excellence</h3>
+                        <p class="text-gray-400">Partnering with top-tier universities to provide students with industry-relevant skills and certifications.</p>
+                    </div>
+                    <div class="glass-effect p-8 rounded-2xl hover-glow">
+                        <i class="fas fa-lightbulb text-4xl text-purple-400 mb-4"></i>
+                        <h3 class="text-2xl font-semibold mb-4">Innovation Focus</h3>
+                        <p class="text-gray-400">Fostering creativity and innovation through cutting-edge projects and emerging technology exposure.</p>
+                    </div>
+                    <div class="glass-effect p-8 rounded-2xl hover-glow">
+                        <i class="fas fa-network-wired text-4xl text-teal-400 mb-4"></i>
+                        <h3 class="text-2xl font-semibold mb-4">Global Network</h3>
+                        <p class="text-gray-400">Building connections across continents to create opportunities for international collaboration and growth.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Universities Section -->
+    <section id="universities" class="py-20 bg-gray-900">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold mb-8 bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
+                    Partner Universities
+                </h2>
+                <p class="text-xl text-gray-400 max-w-3xl mx-auto">
+                    We collaborate with prestigious institutions worldwide to provide students with unparalleled opportunities 
+                    for growth and innovation in technology.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 mb-16">
+                <!-- University Logos -->
+                <div class="university-logo glass-effect p-6 rounded-xl flex flex-col items-center justify-center hover-glow">
+                    <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mb-3">
+                        <i class="fas fa-university text-white text-2xl"></i>
+                    </div>
+                    <span class="text-sm font-semibold text-center">MIT</span>
+                </div>
+                
+                <div class="university-logo glass-effect p-6 rounded-xl flex flex-col items-center justify-center hover-glow">
+                    <div class="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center mb-3">
+                        <i class="fas fa-graduation-cap text-white text-2xl"></i>
+                    </div>
+                    <span class="text-sm font-semibold text-center">Stanford</span>
+                </div>
+                
+                <div class="university-logo glass-effect p-6 rounded-xl flex flex-col items-center justify-center hover-glow">
+                    <div class="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mb-3">
+                        <i class="fas fa-book text-white text-2xl"></i>
+                    </div>
+                    <span class="text-sm font-semibold text-center">Harvard</span>
+                </div>
+                
+                <div class="university-logo glass-effect p-6 rounded-xl flex flex-col items-center justify-center hover-glow">
+                    <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mb-3">
+                        <i class="fas fa-atom text-white text-2xl"></i>
+                    </div>
+                    <span class="text-sm font-semibold text-center">Caltech</span>
+                </div>
+                
+                <div class="university-logo glass-effect p-6 rounded-xl flex flex-col items-center justify-center hover-glow">
+                    <div class="w-16 h-16 bg-yellow-600 rounded-full flex items-center justify-center mb-3">
+                        <i class="fas fa-microscope text-white text-2xl"></i>
+                    </div>
+                    <span class="text-sm font-semibold text-center">UC Berkeley</span>
+                </div>
+                
+                <div class="university-logo glass-effect p-6 rounded-xl flex flex-col items-center justify-center hover-glow">
+                    <div class="w-16 h-16 bg-indigo-600 rounded-full flex items-center justify-center mb-3">
+                        <i class="fas fa-flask text-white text-2xl"></i>
+                    </div>
+                    <span class="text-sm font-semibold text-center">Carnegie Mellon</span>
+                </div>
+                
+                <div class="university-logo glass-effect p-6 rounded-xl flex flex-col items-center justify-center hover-glow">
+                    <div class="w-16 h-16 bg-pink-600 rounded-full flex items-center justify-center mb-3">
+                        <i class="fas fa-brain text-white text-2xl"></i>
+                    </div>
+                    <span class="text-sm font-semibold text-center">Oxford</span>
+                </div>
+                
+                <div class="university-logo glass-effect p-6 rounded-xl flex flex-col items-center justify-center hover-glow">
+                    <div class="w-16 h-16 bg-teal-600 rounded-full flex items-center justify-center mb-3">
+                        <i class="fas fa-cogs text-white text-2xl"></i>
+                    </div>
+                    <span class="text-sm font-semibold text-center">Cambridge</span>
+                </div>
+                
+                <div class="university-logo glass-effect p-6 rounded-xl flex flex-col items-center justify-center hover-glow">
+                    <div class="w-16 h-16 bg-orange-600 rounded-full flex items-center justify-center mb-3">
+                        <i class="fas fa-rocket text-white text-2xl"></i>
+                    </div>
+                    <span class="text-sm font-semibold text-center">Georgia Tech</span>
+                </div>
+                
+                <div class="university-logo glass-effect p-6 rounded-xl flex flex-col items-center justify-center hover-glow">
+                    <div class="w-16 h-16 bg-cyan-600 rounded-full flex items-center justify-center mb-3">
+                        <i class="fas fa-laptop-code text-white text-2xl"></i>
+                    </div>
+                    <span class="text-sm font-semibold text-center">ETH Zurich</span>
+                </div>
+            </div>
+
+            <!-- Social Media Stats -->
+            <div class="glass-effect p-8 rounded-2xl max-w-4xl mx-auto">
+                <h3 class="text-3xl font-bold text-center mb-8">Our Global Reach</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                    <div class="text-center">
+                        <i class="fab fa-linkedin text-4xl text-blue-500 mb-3"></i>
+                        <div class="text-2xl font-bold mb-1">125K</div>
+                        <div class="text-gray-400">LinkedIn Followers</div>
+                    </div>
+                    <div class="text-center">
+                        <i class="fab fa-twitter text-4xl text-blue-400 mb-3"></i>
+                        <div class="text-2xl font-bold mb-1">89K</div>
+                        <div class="text-gray-400">Twitter Followers</div>
+                    </div>
+                    <div class="text-center">
+                        <i class="fab fa-instagram text-4xl text-pink-500 mb-3"></i>
+                        <div class="text-2xl font-bold mb-1">156K</div>
+                        <div class="text-gray-400">Instagram Followers</div>
+                    </div>
+                    <div class="text-center">
+                        <i class="fas fa-globe text-4xl text-green-500 mb-3"></i>
+                        <div class="text-2xl font-bold mb-1">2.3M</div>
+                        <div class="text-gray-400">Global Network</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20 bg-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold mb-8 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                    Our Services
+                </h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="glass-effect p-8 rounded-2xl hover-glow">
+                    <i class="fas fa-briefcase text-4xl text-blue-400 mb-6"></i>
+                    <h3 class="text-2xl font-semibold mb-4">Internship Programs</h3>
+                    <p class="text-gray-400 mb-6">Comprehensive internship opportunities with leading tech companies and startups worldwide.</p>
+                    <button class="text-blue-400 hover:text-blue-300 font-semibold">Learn More <i class="fas fa-arrow-right ml-2"></i></button>
+                </div>
+                
+                <div class="glass-effect p-8 rounded-2xl hover-glow">
+                    <i class="fas fa-file-contract text-4xl text-purple-400 mb-6"></i>
+                    <h3 class="text-2xl font-semibold mb-4">Offer Letter Generation</h3>
+                    <p class="text-gray-400 mb-6">Automated, professional offer letter creation system for seamless recruitment processes.</p>
+                    <button class="text-purple-400 hover:text-purple-300 font-semibold">Learn More <i class="fas fa-arrow-right ml-2"></i></button>
+                </div>
+                
+                <div class="glass-effect p-8 rounded-2xl hover-glow">
+                    <i class="fas fa-certificate text-4xl text-teal-400 mb-6"></i>
+                    <h3 class="text-2xl font-semibold mb-4">Certificate Verification</h3>
+                    <p class="text-gray-400 mb-6">Blockchain-powered certificate verification system ensuring authenticity and credibility.</p>
+                    <button class="text-teal-400 hover:text-teal-300 font-semibold">Learn More <i class="fas fa-arrow-right ml-2"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-gray-900 py-16">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-microchip text-white"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold">MITS</h3>
+                    </div>
+                    <p class="text-gray-400 mb-6">Empowering the next generation of tech innovators through cutting-edge programs and global partnerships.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-blue-400 transition-colors">
+                            <i class="fab fa-linkedin text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-blue-400 transition-colors">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-blue-400 transition-colors">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-blue-400 transition-colors">
+                            <i class="fab fa-github text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-6">Services</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Internship Programs</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Offer Letters</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Certificate Verification</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Team Recruitment</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-6">Resources</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Documentation</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">API Reference</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Help Center</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Blog</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-6">Contact</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li class="flex items-center space-x-3">
+                            <i class="fas fa-envelope"></i>
+                            <span>info@mits.edu</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <i class="fas fa-phone"></i>
+                            <span>+911234567895</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Hyderabad, Telangana</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 Micro Information Technology Services. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Sidebar functionality
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const closeSidebar = document.getElementById('closeSidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        function openSidebar() {
+            sidebar.classList.add('open');
+            sidebarOverlay.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSidebarHandler() {
+            sidebar.classList.remove('open');
+            sidebarOverlay.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        menuToggle.addEventListener('click', openSidebar);
+        closeSidebar.addEventListener('click', closeSidebarHandler);
+        sidebarOverlay.addEventListener('click', closeSidebarHandler);
+
+        // Keyboard accessibility
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+                closeSidebarHandler();
+            }
+        });
+
+        // Sticky banner functionality
+        const stickyBanner = document.getElementById('stickyBanner');
+        let scrollPosition = 0;
+
+        window.addEventListener('scroll', function() {
+            const currentScroll = window.pageYOffset;
+            
+            // Show banner when scrolling down and past hero section
+            if (currentScroll > 300) {
+                stickyBanner.classList.add('show');
+            } else {
+                stickyBanner.classList.remove('show');
+            }
+            
+            scrollPosition = currentScroll;
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                if (targetSection) {
+                    const offsetTop = targetSection.offsetTop - 80; // Account for sticky banner
+                    
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close sidebar if it's open
+                    if (sidebar.classList.contains('open')) {
+                        closeSidebarHandler();
+                    }
+                }
+            });
+        });
+
+        // Add scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.glass-effect, .university-logo').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Add dynamic typing effect to hero text
+        function typeWriter(element, text, speed = 100) {
+            let i = 0;
+            element.innerHTML = '';
+            
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+
+        // Initialize animations when page loads
+        window.addEventListener('load', function() {
+            // Add entrance animations
+            const heroElements = document.querySelectorAll('.animate-float');
+            heroElements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html>
