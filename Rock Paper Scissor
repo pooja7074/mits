@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Rock Paper Scissors</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(45deg, #0f0f0f, #1a1a2e, #16213e);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #00ffff;
+            overflow-x: hidden;
+        }
+
+        .game-container {
+            background: linear-gradient(145deg, #1e1e1e, #2d2d2d);
+            border-radius: 25px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 
+                0 0 30px rgba(0, 255, 255, 0.3),
+                inset 0 0 30px rgba(0, 0, 0, 0.5);
+            border: 2px solid #00ffff;
+            max-width: 800px;
+            width: 95%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(0, 255, 255, 0.05), transparent);
+            animation: scan 3s infinite linear;
+            pointer-events: none;
+        }
+
+        @keyframes scan {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 30px;
+            color: #00ffff;
+            text-shadow: 0 0 20px #00ffff;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .settings-panel {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #00ffff;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .score-limit-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .score-limit-container label {
+            color: #00ffff;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .score-input {
+            background: #1a1a1a;
+            border: 2px solid #00ffff;
+            border-radius: 8px;
+            padding: 8px 12px;
+            color: #00ffff;
+            font-size: 1.1rem;
+            font-family: 'Courier New', monospace;
+            width: 80px;
+            text-align: center;
+        }
+
+        .score-input:focus {
+            outline: none;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+
+        .apply-btn {
+            background: linear-gradient(145deg, #00ffff, #00cccc);
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .apply-btn:hover {
+            background: linear-gradient(145deg, #00cccc, #00aaaa);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 25px;
+            border-radius: 20px;
+            border: 1px solid #00ffff;
+            box-shadow: inset 0 0 20px rgba(0, 255, 255, 0.1);
+        }
+
+        .score {
+            text-align: center;
+            position: relative;
+        }
+
+        .score h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #00ffff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .score-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 2.8rem;
+            font-weight: bold;
+        }
+
+        .score-value {
+            color: #00ff88;
+            text-shadow: 0 0 15px #00ff88;
+        }
+
+        .score-limit {
+            color: #ff6b6b;
+            text-shadow: 0 0 15px #ff6b6b;
+        }
+
+        .game-area {
+            margin-bottom: 40px;
+        }
+
+        .choices {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .choice-btn {
+            background: linear-gradient(145deg, #333, #444);
+            border: 3px solid #00ffff;
+            border-radius: 25px;
+            padding: 25px;
+            font-size: 5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 
+                0 8px 25px rgba(0, 0, 0, 0.5),
+                0 0 0 rgba(0, 255, 255, 0.4);
+            min-width: 150px;
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .choice-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .choice-btn:hover::before {
+            left: 100%;
+        }
+
+        .choice-btn:hover {
+            transform: translateY(-15px) scale(1.1);
+            box-shadow: 
+                0 15px 35px rgba(0, 0, 0, 0.7),
+                0 0 30px rgba(0, 255, 255, 0.6);
+            border-color: #00ff88;
+        }
+
+        .choice-btn:active {
+            transform: translateY(-10px) scale(1.05);
+        }
+
+        .choice-btn.rock {
+            background: linear-gradient(145deg, #8B4513, #A0522D);
+        }
+
+        .choice-btn.paper {
+            background: linear-gradient(145deg, #4169E1, #6495ED);
+        }
+
+        .choice-btn.scissors {
+            background: linear-gradient(145deg, #DC143C, #FF6347);
+        }
+
+        .result-display {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 35px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border: 2px solid #00ffff;
+            box-shadow: inset 0 0 30px rgba(0, 255, 255, 0.1);
+        }
+
+        .round-result {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .choices-made {
+            font-size: 1.5rem;
+            opacity: 0.9;
+            letter-spacing: 1px;
+        }
+
+        .win {
+            color: #00ff88;
+            text-shadow: 0 0 20px #00ff88;
+        }
+
+        .lose {
+            color: #ff4757;
+            text-shadow: 0 0 20px #ff4757;
+        }
+
+        .tie {
+            color: #ffd700;
+            text-shadow: 0 0 20px #ffd700;
+        }
+
+        .game-over {
+            color: #ff00ff;
+            text-shadow: 0 0 30px #ff00ff;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            background: linear-gradient(145deg, #222, #444);
+            color: #00ffff;
+            border: 2px solid #00ffff;
+            padding: 15px 30px;
+            font-size: 1.3rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+        }
+
+        .control-btn:hover {
+            background: linear-gradient(145deg, #00ffff, #00cccc);
+            color: #000;
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.7);
+            transform: translateY(-3px);
+        }
+
+        .game-instructions {
+            margin-top: 40px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 25px;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            line-height: 2;
+            border: 1px solid #00ffff;
+            color: #ffffff;
+        }
+
+        .game-instructions strong {
+            color: #00ffff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 768px) {
+            .choices {
+                gap: 20px;
+            }
+            
+            .choice-btn {
+                min-width: 100px;
+                min-height: 100px;
+                font-size: 4rem;
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2.8rem;
+            }
+            
+            .game-container {
+                padding: 20px;
+            }
+
+            .settings-panel {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>⚡ Ultimate RPS ⚡</h1>
+        
+        <div class="settings-panel">
+            <div class="score-limit-container">
+                <label for="scoreLimit">Score Limit:</label>
+                <input type="number" id="scoreLimit" class="score-input" value="5" min="1" max="99">
+                <button class="apply-btn" onclick="updateScoreLimit()">Apply</button>
+            </div>
+            <div id="limitDisplay" style="color: #00ffff; font-weight: bold;">Playing to: 5 points</div>
+        </div>
+        
+        <div class="score-board">
+            <div class="score">
+                <h3>Player</h3>
+                <div class="score-display">
+                    <span class="score-value" id="playerScore">0</span>
+                    <span>/</span>
+                    <span class="score-limit" id="playerLimit">5</span>
+                </div>
+            </div>
+            <div class="score">
+                <h3>AI Opponent</h3>
+                <div class="score-display">
+                    <span class="score-value" id="computerScore">0</span>
+                    <span>/</span>
+                    <span class="score-limit" id="computerLimit">5</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-area">
+            <div class="choices">
+                <button class="choice-btn rock" onclick="playGame('rock')" id="rockBtn">🗿</button>
+                <button class="choice-btn paper" onclick="playGame('paper')" id="paperBtn">📋</button>
+                <button class="choice-btn scissors" onclick="playGame('scissors')" id="scissorsBtn">⚔️</button>
+            </div>
+
+            <div class="result-display" id="resultDisplay">
+                <div class="round-result">Initialize Combat Protocol</div>
+                <div class="choices-made">Select your weapon to engage the AI opponent</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="control-btn" onclick="resetGame()">🔄 Reset Game</button>
+            <button class="control-btn" onclick="newMatch()">🆕 New Match</button>
+        </div>
+
+        <div class="game-instructions">
+            <strong>Combat Rules:</strong><br>
+            🗿 Rock crushes Scissors<br>
+            📋 Paper covers Rock<br>
+            ⚔️ Scissors cuts Paper<br>
+            <br>
+            <strong>Controls:</strong> R(ock) | P(aper) | S(cissors) | Space(Reset)<br>
+            <strong>Victory:</strong> First to reach the score limit wins! 🏆
+        </div>
+    </div>
+
+    <script>
+        let playerScore = 0;
+        let computerScore = 0;
+        let scoreLimit = 5;
+        let gameActive = true;
+        
+        const choices = ['rock', 'paper', 'scissors'];
+        const emojis = {
+            rock: '🗿',
+            paper: '📋',
+            scissors: '⚔️'
+        };
+
+        const names = {
+            rock: 'Rock',
+            paper: 'Paper', 
+            scissors: 'Scissors'
+        };
+
+        function updateScoreLimit() {
+            const newLimit = parseInt(document.getElementById('scoreLimit').value);
+            if (newLimit >= 1 && newLimit <= 99) {
+                scoreLimit = newLimit;
+                document.getElementById('playerLimit').textContent = scoreLimit;
+                document.getElementById('computerLimit').textContent = scoreLimit;
+                document.getElementById('limitDisplay').textContent = `Playing to: ${scoreLimit} points`;
+                
+                // Reset game if new limit is lower than current scores
+                if (playerScore >= scoreLimit || computerScore >= scoreLimit) {
+                    resetGame();
+                }
+            }
+        }
+
+        function playGame(playerChoice) {
+            if (!gameActive) return;
+
+            const computerChoice = choices[Math.floor(Math.random() * 3)];
+            const result = determineWinner(playerChoice, computerChoice);
+            
+            updateScore(result);
+            displayResult(playerChoice, computerChoice, result);
+            
+            if (playerScore >= scoreLimit || computerScore >= scoreLimit) {
+                endGame();
+            }
+        }
+
+        function determineWinner(player, computer) {
+            if (player === computer) {
+                return 'tie';
+            }
+            
+            if (
+                (player === 'rock' && computer === 'scissors') ||
+                (player === 'paper' && computer === 'rock') ||
+                (player === 'scissors' && computer === 'paper')
+            ) {
+                return 'win';
+            } else {
+                return 'lose';
+            }
+        }
+
+        function updateScore(result) {
+            if (result === 'win') {
+                playerScore++;
+                document.getElementById('playerScore').textContent = playerScore;
+            } else if (result === 'lose') {
+                computerScore++;
+                document.getElementById('computerScore').textContent = computerScore;
+            }
+        }
+
+        function displayResult(playerChoice, computerChoice, result) {
+            const resultDisplay = document.getElementById('resultDisplay');
+            
+            let resultMessage = '';
+            let choicesMessage = `You: ${emojis[playerChoice]} ${names[playerChoice]} vs AI: ${emojis[computerChoice]} ${names[computerChoice]}`;
+            
+            switch(result) {
+                case 'win':
+                    resultMessage = '⚡ VICTORY ACHIEVED ⚡';
+                    resultDisplay.querySelector('.round-result').className = 'round-result win';
+                    break;
+                case 'lose':
+                    resultMessage = '💥 SYSTEM BREACHED 💥';
+                    resultDisplay.querySelector('.round-result').className = 'round-result lose';
+                    break;
+                case 'tie':
+                    resultMessage = '🔄 DEADLOCK STATE 🔄';
+                    resultDisplay.querySelector('.round-result').className = 'round-result tie';
+                    break;
+            }
+            
+            resultDisplay.querySelector('.round-result').textContent = resultMessage;
+            resultDisplay.querySelector('.choices-made').textContent = choicesMessage;
+        }
+
+        function endGame() {
+            gameActive = false;
+            const resultDisplay = document.getElementById('resultDisplay');
+            
+            if (playerScore >= scoreLimit) {
+                resultDisplay.querySelector('.round-result').textContent = '🏆 GAME WON - CHAMPION STATUS ACHIEVED 🏆';
+                resultDisplay.querySelector('.round-result').className = 'round-result win game-over';
+            } else {
+                resultDisplay.querySelector('.round-result').textContent = '💀 GAME LOST - AI SUPREMACY ESTABLISHED 💀';
+                resultDisplay.querySelector('.round-result').className = 'round-result lose game-over';
+            }
+            
+            resultDisplay.querySelector('.choices-made').textContent = `Final Score: ${playerScore}-${computerScore} | Click "New Match" to play again`;
+            
+            // Disable choice buttons
+            document.querySelectorAll('.choice-btn').forEach(btn => {
+                btn.style.opacity = '0.5';
+                btn.style.pointerEvents = 'none';
+            });
+        }
+
+        function resetGame() {
+            playerScore = 0;
+            computerScore = 0;
+            gameActive = true;
+            
+            document.getElementById('playerScore').textContent = '0';
+            document.getElementById('computerScore').textContent = '0';
+            
+            const resultDisplay = document.getElementById('resultDisplay');
+            resultDisplay.querySelector('.round-result').textContent = 'Initialize Combat Protocol';
+            resultDisplay.querySelector('.round-result').className = 'round-result';
+            resultDisplay.querySelector('.choices-made').textContent = 'Select your weapon to engage the AI opponent';
+            
+            // Re-enable choice buttons
+            document.querySelectorAll('.choice-btn').forEach(btn => {
+                btn.style.opacity = '1';
+                btn.style.pointerEvents = 'auto';
+            });
+        }
+
+        function newMatch() {
+            resetGame();
+        }
+
+        // Keyboard controls
+        document.addEventListener('keydown', function(event) {
+            if (!gameActive) return;
+            
+            switch(event.key.toLowerCase()) {
+                case 'r':
+                    playGame('rock');
+                    break;
+                case 'p':
+                    playGame('paper');
+                    break;
+                case 's':
+                    playGame('scissors');
+                    break;
+                case ' ':
+                    event.preventDefault();
+                    resetGame();
+                    break;
+            }
+        });
+
+        // Initialize display
+        updateScoreLimit();
+    </script>
+</body>
+</html>
